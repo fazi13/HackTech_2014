@@ -3,6 +3,7 @@ package com.muddaflappers.hacktech;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
@@ -19,6 +20,9 @@ public class MainActivity extends Activity
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
+      Toast t = Toast.makeText(getApplicationContext(), "wheeee", Toast.LENGTH_LONG);
+      t.show();
+      
    }
 
    @Override
