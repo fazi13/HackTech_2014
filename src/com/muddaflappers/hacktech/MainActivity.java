@@ -66,6 +66,7 @@ public class MainActivity extends Activity implements OnClickListener{
                                 Event event = new Event(mCursor.getString(0), start, end, allDay);
                                 if(Functions.checkIfDateMatch(event, dayOf))
                                 	eventList.add(event);
+                                Functions.sortEventList(eventList);
                                 mCursor.moveToNext(); //moves to next event
                         }
                 break;

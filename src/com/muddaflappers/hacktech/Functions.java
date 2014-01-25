@@ -16,28 +16,26 @@ public class Functions {
 	         cal = Calendar.getInstance();
 	         cal.setTime(dateObject);
 	      } catch (ParseException e) {
-	         // TODO Auto-generated catch block
+	         // Auto-generated catch block
 	         e.printStackTrace();
 	         cal = new GregorianCalendar();
 	      }
 	      return (GregorianCalendar) cal;
 	}
 	
-	public static boolean checkIfDateMatch(Event event, Calendar current)
+	public static boolean checkIfDateMatch(Event event, Calendar current) // TODO: NEED TO FIX
 	{
 		Calendar eventStart = event.getStartDate();
 		Calendar eventEnd = event.getEndDate();
-		if(eventStart.get(Calendar.DATE) <= current.get(Calendar.DATE) && eventEnd.get(Calendar.DATE) >= current.get(Calendar.DATE))
-			return true;
-		else
-			return false;
+		if(eventStart.get(Calendar.YEAR) <= current.get(Calendar.YEAR) && eventEnd.get(Calendar.YEAR) >= current.get(Calendar.YEAR))
+			if(eventStart.get(Calendar.MONTH) <= current.get(Calendar.MONTH) && eventEnd.get(Calendar.MONTH) >= current.get(Calendar.MONTH))
+					if(eventStart.get(Calendar.DATE) <= current.get(Calendar.DATE) && eventEnd.get(Calendar.DATE) >= current.get(Calendar.DATE))
+						return true;
+		return false;
 	}
 
-	public static void sortArrayList(ArrayList<Event> events)
+	public static void sortEventList(ArrayList<Event> events)
 	{
-		for(int i = 0; i < events.size(); i++)
-		{
-			// IMPLEMENT FINDING EARLIER DATE
-		}
+		Collections.sort(events);
 	}
 }

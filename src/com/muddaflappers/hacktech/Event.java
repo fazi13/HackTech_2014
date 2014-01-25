@@ -1,8 +1,9 @@
 package com.muddaflappers.hacktech;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Event {
+public class Event implements Comparable<Event>{
 	String title;
 	GregorianCalendar startDate;
 	GregorianCalendar endDate;
@@ -40,4 +41,12 @@ public class Event {
 		return endDate;
 	}
 
+	public int compareTo(Event other){
+		if(this.startDate.before(other.startDate))
+			return -1;
+		else if(this.startDate.after(other.startDate))
+			return 1;
+		else
+			return 0;
+	}
 }
