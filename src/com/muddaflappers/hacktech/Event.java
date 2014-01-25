@@ -11,6 +11,15 @@ public class Event {
 	GregorianCalendar endDate;
 	Time endTime;
 	
+	public Event (String title, GregorianCalendar startDate, GregorianCalendar endDate, Time startTime, Time endTime)
+	{
+		this.title = title;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
+	
 	public void setTitle(String t){
 	title = t;	
 	}
