@@ -36,6 +36,19 @@ public class Functions {
 	
 	public static void writeToText(ArrayList<Event> eventArrayList)
 	{
-		
+		String writeString = "";
+		for (int i = 0; i < eventArrayList.size(); i++)
+		{
+			writeString += eventArrayList.get(i).title;
+			writeString += ", ";
+			writeString += eventArrayList.get(i).startDate.get(Calendar.HOUR_OF_DAY);
+			writeString += ":";
+			writeString += eventArrayList.get(i).startDate.get(Calendar.MINUTE);
+			writeString += ", ";
+			writeString += eventArrayList.get(i).endDate.get(Calendar.HOUR_OF_DAY);
+			writeString += ":";
+			writeString += eventArrayList.get(i).endDate.get(Calendar.MINUTE);
+			writeString += ", ";
+		}
 	}
 }
