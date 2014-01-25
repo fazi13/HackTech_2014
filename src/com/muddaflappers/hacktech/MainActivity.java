@@ -6,6 +6,8 @@ import android.view.Menu;
 
 public class MainActivity extends Activity
 {
+	
+	//Jerry has big hairy balls 9:16 pm
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
