@@ -1,15 +1,15 @@
 package com.muddaflappers.hacktech;
  
 import java.text.Format;
- 
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
- 
 import android.app.Activity;
 import android.database.Cursor;
 import android.provider.CalendarContract;
@@ -17,14 +17,20 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
  
 public class MainActivity extends Activity implements OnClickListener{
-        //create cursor for calendar
-        private Cursor mCursor = null;
-        private static final String[] COLS = new String[]
-                {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND, CalendarContract.Events.ALL_DAY};
+   
+   //extra functions
+   TextToDate toDate = new TextToDate();
+   //extra variables
+   private EditText dateText;
+   //create cursor for calendar
+   private Cursor mCursor = null;
+   private static final String[] COLS = new String[]
+         {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND, CalendarContract.Events.ALL_DAY};
  
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +43,7 @@ public class MainActivity extends Activity implements OnClickListener{
       mCursor.moveToFirst();
                
       //set up button event
+      dateText = (EditText) findViewById(R.id.textEnter);
       Button btnGetCalendar = (Button) findViewById(R.id.btnGetCalendar);
       btnGetCalendar.setOnClickListener(this);
       onClick(findViewById(R.id.btnGetCalendar));
@@ -45,9 +52,10 @@ public class MainActivity extends Activity implements OnClickListener{
    public void onClick(View v){
                 GregorianCalendar start = new GregorianCalendar();
                 GregorianCalendar end = new GregorianCalendar();
-                boolean allDay;
+                GregorianCalendar dayOf = toDate.toDate(dateText); //day user wants to find
+                boolean allDay; //if event is all day
                 ArrayList<Event> eventList = new ArrayList<Event>();
-               
+                
                 //loop through all events and add to array list
                 switch(v.getId()){
                 case R.id.btnGetCalendar:
