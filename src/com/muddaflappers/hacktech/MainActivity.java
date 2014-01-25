@@ -8,8 +8,10 @@ import android.view.Menu;
 
 import java.text.Format;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.provider.CalendarContract;
@@ -23,8 +25,6 @@ import android.widget.Toast;
  
 public class MainActivity extends Activity implements OnClickListener{
    
-   //extra functions
-   TextToDate toDate = new TextToDate();
    //extra variables
    private EditText dateText;
    //create cursor for calendar
@@ -43,7 +43,7 @@ public class MainActivity extends Activity implements OnClickListener{
       mCursor.moveToFirst();
                
       //set up button event
-      dateText = (EditText) findViewById(R.id.textEnter);
+      dateText = (EditText) findViewById(R.id.dateBox);
       Button btnGetCalendar = (Button) findViewById(R.id.btnGetCalendar);
       btnGetCalendar.setOnClickListener(this);
       onClick(findViewById(R.id.btnGetCalendar));
@@ -52,10 +52,10 @@ public class MainActivity extends Activity implements OnClickListener{
    public void onClick(View v){
                 GregorianCalendar start = new GregorianCalendar();
                 GregorianCalendar end = new GregorianCalendar();
-                GregorianCalendar dayOf = toDate.toDate(dateText); //day user wants to find
+                GregorianCalendar dayOf = Functions.toDate(dateText); //day user wants to find
                 boolean allDay; //if event is all day
                 ArrayList<Event> eventList = new ArrayList<Event>();
-                
+               
                 //loop through all events and add to array list
                 switch(v.getId()){
                 case R.id.btnGetCalendar:
@@ -63,7 +63,9 @@ public class MainActivity extends Activity implements OnClickListener{
                                 start.setTimeInMillis(mCursor.getLong(1));
                                 end.setTimeInMillis(mCursor.getLong(2)); // end date obj
                                 allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
-                                eventList.add(new Event(mCursor.getString(0), start, end, allDay));
+                                Event event = new Event(mCursor.getString(0), start, end, allDay);
+                                if(Functions.checkIfDateMatch(event, dayOf))
+                                	eventList.add(event);
                                 mCursor.moveToNext(); //moves to next event
                         }
                 break;
