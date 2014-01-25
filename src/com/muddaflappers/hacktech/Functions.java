@@ -35,11 +35,11 @@ public class Functions {
 			writeString += eventArrayList.get(i).title;
 			writeString += ", ";
 			writeString += eventArrayList.get(i).startDate.get(Calendar.HOUR_OF_DAY);
-			writeString += ":";
+			writeString += ", ";
 			writeString += eventArrayList.get(i).startDate.get(Calendar.MINUTE);
 			writeString += ", ";
 			writeString += eventArrayList.get(i).endDate.get(Calendar.HOUR_OF_DAY);
-			writeString += ":";
+			writeString += ", ";
 			writeString += eventArrayList.get(i).endDate.get(Calendar.MINUTE);
 			writeString += ", ";
 		}
