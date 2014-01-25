@@ -60,16 +60,16 @@ public class MainActivity extends Activity implements OnClickListener{
                 //loop through all events and add to array list
                 switch(v.getId()){
                 case R.id.btnGetCalendar:
-                        while(!mCursor.isLast()){
-	                        start.setTimeInMillis(mCursor.getLong(1));
-	                        end.setTimeInMillis(mCursor.getLong(2)); // end date obj
-	                        allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
-	                        Event event = new Event(mCursor.getString(0), start, end, allDay);
-	                        if(Functions.checkIfDateMatch(event, dayOf))
-	                        	eventList.add(event);
-	                        Collections.sort(eventList);
-	                        mCursor.moveToNext(); //moves to next event
-                        }
+					while(!mCursor.isLast()){
+						start.setTimeInMillis(mCursor.getLong(1));
+						end.setTimeInMillis(mCursor.getLong(2)); // end date obj
+						allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
+						Event event = new Event(mCursor.getString(0), start, end, allDay);
+						if(Functions.checkIfDateMatch(event, dayOf))
+							eventList.add(event);
+						mCursor.moveToNext(); //moves to next event
+                    }
+					Collections.sort(eventList);
                 break;
                 }
                  Toast t = Toast.makeText(getApplicationContext(), "All Events Added", Toast.LENGTH_LONG);
