@@ -24,7 +24,7 @@ public class MainActivity extends Activity implements OnClickListener{
         //create cursor for calendar
         private Cursor mCursor = null;
         private static final String[] COLS = new String[]
-                {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART};
+                {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND, CalendarContract.Events.ALL_DAY};
  
    @Override
    protected void onCreate(Bundle savedInstanceState)
