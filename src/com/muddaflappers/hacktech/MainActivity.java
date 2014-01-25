@@ -7,7 +7,7 @@ import android.view.Menu;
 public class MainActivity extends Activity
 {
 	
-	//Jerry has big hairy balls 9:27 pm
+	//Jerry is gonna eat all the fried chicken in America
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
