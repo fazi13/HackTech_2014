@@ -33,4 +33,9 @@ public class Functions {
 						return true;
 		return false;
 	}
+	
+	public static void writeToText(ArrayList<Event> eventArrayList)
+	{
+		
+	}
 }
