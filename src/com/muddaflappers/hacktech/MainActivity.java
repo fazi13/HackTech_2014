@@ -9,6 +9,7 @@ public class MainActivity extends Activity
 	
 	//Jerry is gonna eat all the fried chicken in America
 	//Kevin likes beef
+	//Jerry ate spaghetti for christmas
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
