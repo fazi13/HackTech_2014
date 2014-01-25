@@ -3,6 +3,7 @@ package com.muddaflappers.hacktech;
 import java.text.*;
 import java.util.*;
 
+import android.util.Log;
 import android.widget.EditText;
 
 public class Functions {
@@ -50,5 +51,6 @@ public class Functions {
 			writeString += eventArrayList.get(i).endDate.get(Calendar.MINUTE);
 			writeString += ", ";
 		}
+		Log.d("TEST", writeString);
 	}
 }

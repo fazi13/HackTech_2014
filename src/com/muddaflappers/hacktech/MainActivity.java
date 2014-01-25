@@ -4,6 +4,7 @@ import java.text.Format;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 
 import java.text.Format;
@@ -47,26 +48,33 @@ public class MainActivity extends Activity implements OnClickListener{
       dateText = (EditText) findViewById(R.id.dateBox);
       Button btnGetCalendar = (Button) findViewById(R.id.btnGetCalendar);
       btnGetCalendar.setOnClickListener(this);
-      onClick(findViewById(R.id.btnGetCalendar));
+      //onClick(findViewById(R.id.btnGetCalendar));
    }
    
    public void onClick(View v){
                 GregorianCalendar start = new GregorianCalendar();
                 GregorianCalendar end = new GregorianCalendar();
                 GregorianCalendar dayOf = Functions.toDate(dateText); //day user wants to find
+                Log.d("MainActivity", "dayOf = " + dayOf.get(Calendar.MONTH) + "/" + dayOf.get(Calendar.DATE) + "/" + dayOf.get(Calendar.YEAR));
                 boolean allDay; //if event is all day
                 ArrayList<Event> eventList = new ArrayList<Event>();
                
                 //loop through all events and add to array list
                 switch(v.getId()){
                 case R.id.btnGetCalendar:
+                	Log.d("MainActivity", "Before while loop");
 					while(!mCursor.isAfterLast()){
 						start.setTimeInMillis(mCursor.getLong(1));
 						end.setTimeInMillis(mCursor.getLong(2)); // end date obj
 						allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
 						Event event = new Event(mCursor.getString(0), start, end, allDay);
+						Log.d("MainActivity", "Before check");
+						Log.d("MainActivity", "dayOf = " + start.get(Calendar.MONTH) + "/" + start.get(Calendar.DATE) + "/" + start.get(Calendar.YEAR));
 						if(Functions.checkIfDateMatch(event, dayOf))
+						{
+							Log.d("MainActivity", "Checking date");
 							eventList.add(event);
+						}
 						mCursor.moveToNext(); //moves to next event
                     }
 					Collections.sort(eventList);
