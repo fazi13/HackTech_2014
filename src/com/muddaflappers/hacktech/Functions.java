@@ -2,7 +2,7 @@ package com.muddaflappers.hacktech;
 
 import java.util.Calendar;
 
-public class Checker {
+public class Functions {
 	
 	public boolean checkIfDateMatch(Event event, Calendar current)
 	{
