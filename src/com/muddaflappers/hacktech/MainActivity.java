@@ -32,7 +32,8 @@ public class MainActivity extends Activity implements OnClickListener{
    //create cursor for calendar
    private Cursor mCursor = null;
    private static final String[] COLS = new String[]
-         {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND, CalendarContract.Events.ALL_DAY};
+         {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND, CalendarContract.Events.ALL_DAY,
+	   			CalendarContract.Events.DELETED};
  
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -55,25 +56,24 @@ public class MainActivity extends Activity implements OnClickListener{
                 GregorianCalendar start = new GregorianCalendar();
                 GregorianCalendar end = new GregorianCalendar();
                 GregorianCalendar dayOf = Functions.toDate(dateText); //day user wants to find
-                Log.d("MainActivity", "dayOf = " + dayOf.get(Calendar.MONTH) + "/" + dayOf.get(Calendar.DATE) + "/" + dayOf.get(Calendar.YEAR));
                 boolean allDay; //if event is all day
                 ArrayList<Event> eventList = new ArrayList<Event>();
                
                 //loop through all events and add to array list
                 switch(v.getId()){
                 case R.id.btnGetCalendar:
-                	Log.d("MainActivity", "Before while loop");
 					while(!mCursor.isAfterLast()){
-						start.setTimeInMillis(mCursor.getLong(1));
-						end.setTimeInMillis(mCursor.getLong(2)); // end date obj
-						allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
-						Event event = new Event(mCursor.getString(0), start, end, allDay);
-						Log.d("MainActivity", "Before check");
-						Log.d("MainActivity", "dayOf = " + start.get(Calendar.MONTH) + "/" + start.get(Calendar.DATE) + "/" + start.get(Calendar.YEAR));
-						if(Functions.checkIfDateMatch(event, dayOf))
-						{
-							Log.d("MainActivity", "Checking date");
-							eventList.add(event);
+						if(!mCursor.getString(4).equals("1")){
+							start.setTimeInMillis(mCursor.getLong(1));
+							end.setTimeInMillis(mCursor.getLong(2)); // end date obj
+							allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
+							Event event = new Event(mCursor.getString(0), start, end, allDay);
+							Log.d("MainActivity", "Event = " + (start.get(Calendar.MONTH)+1) + "/" + start.get(Calendar.DATE) + "/" + start.get(Calendar.YEAR));
+							if(Functions.checkIfDateMatch(event, dayOf))
+							{
+								Log.d("MainActivity", "Confirmed date");
+								eventList.add(event);
+							}
 						}
 						mCursor.moveToNext(); //moves to next event
                     }

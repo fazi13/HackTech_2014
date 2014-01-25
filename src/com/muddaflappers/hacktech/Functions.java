@@ -9,19 +9,11 @@ import android.widget.EditText;
 public class Functions {
 	
 	public static GregorianCalendar toDate(EditText textInput){
-	      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-	      Date dateObject;
-	      Calendar cal;
-	      try {
-	         dateObject = df.parse(textInput.getText().toString());
-	         cal = Calendar.getInstance();
-	         cal.setTime(dateObject);
-	      } catch (ParseException e) {
-	         // Auto-generated catch block
-	         e.printStackTrace();
-	         cal = new GregorianCalendar();
-	      }
-	      return (GregorianCalendar) cal;
+	      GregorianCalendar cal = new GregorianCalendar();
+	      String text = textInput.getText().toString();
+	      String[] tokens = text.split("/");
+	      cal.set(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[0])-1, Integer.parseInt(tokens[1]));
+	      return cal;
 	}
 	
 	public static boolean checkIfDateMatch(Event event, Calendar current) // TODO: NEED TO FIX
