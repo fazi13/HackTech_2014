@@ -43,8 +43,8 @@ public class MainActivity extends Activity implements OnClickListener{
    }
    
    public void onClick(View v){
-                GregorianCalendar start;
-                GregorianCalendar end;
+                GregorianCalendar start = new GregorianCalendar();
+                GregorianCalendar end = new GregorianCalendar();
                 boolean allDay;
                 ArrayList<Event> eventList = new ArrayList<Event>();
                
@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements OnClickListener{
                         while(!mCursor.isLast()){
                                 start.setTimeInMillis(mCursor.getLong(1));
                                 end.setTimeInMillis(mCursor.getLong(2)); // end date obj
-                                allDay = new Boolean(!mCursor.getString(3).equals("0")); //gets boolean if all day
+                                allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
                                 eventList.add(new Event(mCursor.getString(0), start, end, allDay));
                                 mCursor.moveToNext(); //moves to next event
                         }

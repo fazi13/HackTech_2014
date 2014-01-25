@@ -6,12 +6,14 @@ public class Event {
 	String title;
 	GregorianCalendar startDate;
 	GregorianCalendar endDate;
+	boolean allDay;
 	
-	public Event (String title, GregorianCalendar startDate, GregorianCalendar endDate)
+	public Event (String title, GregorianCalendar startDate, GregorianCalendar endDate, boolean allDay)
 	{
 		this.title = title;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.allDay = allDay;
 	}
 	
 	public void setTitle(String t){
