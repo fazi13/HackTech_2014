@@ -1,7 +1,5 @@
 package com.muddaflappers.hacktech;
  
-import java.text.Format;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
