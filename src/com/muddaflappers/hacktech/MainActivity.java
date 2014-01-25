@@ -11,6 +11,7 @@ public class MainActivity extends Activity
 	//Kevin likes beef
 	//Jerry ate spaghetti for christmas
 	//KEVIN EAT FOOD
+	//HE ALSO LIKES SPAGHETTI
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
