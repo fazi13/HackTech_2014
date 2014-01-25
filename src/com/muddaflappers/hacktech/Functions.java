@@ -33,9 +33,4 @@ public class Functions {
 						return true;
 		return false;
 	}
-
-	public static void sortEventList(ArrayList<Event> events)
-	{
-		Collections.sort(events);
-	}
 }
