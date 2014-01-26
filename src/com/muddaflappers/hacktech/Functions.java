@@ -187,7 +187,7 @@ public class Functions {
 			return freeAL;
 		}
 		
-		if (event.get(0).startDate.get(Calendar.HOUR_OF_DAY) != 0 && event.get(0).startDate.get(Calendar.MINUTE) != 0)
+		if (!(event.get(0).startDate.get(Calendar.HOUR_OF_DAY) == 0 && event.get(0).startDate.get(Calendar.MINUTE) == 0))
 		{
 			GregorianCalendar cal1 = new GregorianCalendar(0,0,0,0,0);
 			GregorianCalendar cal2 = new GregorianCalendar(0,0,0,event.get(0).startDate.get(Calendar.HOUR_OF_DAY), event.get(0).startDate.get(Calendar.MINUTE));
