@@ -56,7 +56,8 @@ public class MainActivity extends Activity implements OnClickListener{
       dateText = (EditText) findViewById(R.id.dateBox);
       Button btnGetCalendar = (Button) findViewById(R.id.btnGetCalendar);
       btnGetCalendar.setOnClickListener(this);
-      //onClick(findViewById(R.id.btnGetCalendar));
+      Button btnCheckSchedules = (Button) findViewById(R.id.btnCheckSchedules);
+      btnCheckSchedules.setOnClickListener(this);
    }
    
    public void onClick(View v){
@@ -92,7 +93,20 @@ public class MainActivity extends Activity implements OnClickListener{
 						// Auto-generated catch block
 						e.printStackTrace();
 					}
-                break;
+					break;
+					
+                case R.id.btnCheckSchedules:
+                	ArrayList<Event> otherList = Functions.readFile();
+                	ArrayList<Event> freeTimeList = Functions.freeTimeCalc(eventList, otherList);
+                	String freeTimeData = "";
+                	for(int i = 0; i < freeTimeList.size(); i++)
+                	{
+                		freeTimeData += "Start: " + freeTimeList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).startDate.get(Calendar.MINUTE);
+                		freeTimeData += "  End:" + freeTimeList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).endDate.get(Calendar.MINUTE);
+                		freeTimeData += "\n";
+                	}
+                	Log.d("Check Schedules", freeTimeData);
+                	break;
                 }
                  Toast t = Toast.makeText(getApplicationContext(), "All Events Added", Toast.LENGTH_LONG);
                  t.show();
