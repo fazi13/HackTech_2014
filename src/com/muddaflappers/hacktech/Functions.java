@@ -184,6 +184,7 @@ public class Functions {
 			GregorianCalendar cal1 = new GregorianCalendar(0,0,0,0,0);
 			GregorianCalendar cal2 = new GregorianCalendar(0,0,0, 23, 59);
 			freeAL.add(new Event("Free Time", cal1, cal2, false));
+			return freeAL;
 		}
 		
 		if (event.get(0).startDate.get(Calendar.HOUR_OF_DAY) != 0 && event.get(0).startDate.get(Calendar.MINUTE) != 0)
@@ -199,7 +200,7 @@ public class Functions {
 			++i;
 			if (i > event.size() - 1)
 			{
-				GregorianCalendar cal4 = new GregorianCalendar(0,0,0,24,0);
+				GregorianCalendar cal4 = new GregorianCalendar(0,0,0,23,59);
 				freeAL.add(new Event("Free Time", cal3, cal4, false));
 				break;
 			}
