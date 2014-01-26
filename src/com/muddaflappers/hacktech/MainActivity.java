@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	  intent = new Intent();
       intent.setAction(Intent.ACTION_SEND);
       intent.setType("text/plain");
-      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/otherSchedule.txt")));
+      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/schedule.txt")));
 	   
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
