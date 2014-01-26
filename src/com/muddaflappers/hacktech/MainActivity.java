@@ -60,8 +60,6 @@ public class MainActivity extends Activity implements OnClickListener{
    }
    
    public void onClick(View v){
-                GregorianCalendar start = new GregorianCalendar();
-                GregorianCalendar end = new GregorianCalendar();
                 GregorianCalendar dayOf = Functions.toDate(dateText); //day user wants to find
                 boolean allDay; //if event is all day
                 ArrayList<Event> eventList = new ArrayList<Event>();
@@ -72,6 +70,8 @@ public class MainActivity extends Activity implements OnClickListener{
                 	mCursor.moveToFirst();
 					while(!mCursor.isAfterLast()){
 						if(!mCursor.getString(4).equals("1")){
+							GregorianCalendar start = new GregorianCalendar();
+			                GregorianCalendar end = new GregorianCalendar();
 							start.setTimeInMillis(mCursor.getLong(1));
 							end.setTimeInMillis(mCursor.getLong(2)); // end date obj
 							allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
