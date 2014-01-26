@@ -92,12 +92,46 @@ public class MainActivity extends Activity implements OnClickListener{
 						// Auto-generated catch block
 						e.printStackTrace();
 					}
+					Toast t = Toast.makeText(getApplicationContext(), "All Events Added", Toast.LENGTH_LONG);
+	                 t.show();
+	                 
+	                 BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+	                 
+	                 if (btAdapter == null) {
+	                    Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_LONG).show();
+	                  }
+	                 else{
+	                     enableBlu();
+	                  }
 					break;
 					
                 case R.id.btnCheckSchedules:
                 	ArrayList<Event> otherList = Functions.readFile();
                 	ArrayList<Event> freeTimeList = Functions.freeTimeCalc(eventList, otherList);
+                	
+                	
+                	String otherData = "";
+                	Log.d("Other List Size", Integer.toString(otherList.size()));
+                	for(int i = 0; i < otherList.size(); i++)
+                	{
+                		otherData += "Start: " + otherList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + otherList.get(i).startDate.get(Calendar.MINUTE);
+                		otherData += "  End:" + otherList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + otherList.get(i).endDate.get(Calendar.MINUTE);
+                		otherData += "\n";
+                	}
+                	Log.d("Other List", otherData);
+                	
+                	String eventData = "";
+                	Log.d("Event List Size", Integer.toString(eventList.size()));
+                	for(int i = 0; i < eventList.size(); i++)
+                	{
+                		eventData += "Start: " + eventList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + eventList.get(i).startDate.get(Calendar.MINUTE);
+                		eventData += "  End:" + eventList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + eventList.get(i).endDate.get(Calendar.MINUTE);
+                		eventData += "\n";
+                	}
+                	Log.d("Event List", eventData);
+                	
                 	String freeTimeData = "";
+                	Log.d("Check Schedules Size", Integer.toString(freeTimeList.size()));
                 	for(int i = 0; i < freeTimeList.size(); i++)
                 	{
                 		freeTimeData += "Start: " + freeTimeList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).startDate.get(Calendar.MINUTE);
@@ -107,16 +141,6 @@ public class MainActivity extends Activity implements OnClickListener{
                 	Log.d("Check Schedules", freeTimeData);
                 	break;
                 }
-                 Toast t = Toast.makeText(getApplicationContext(), "All Events Added", Toast.LENGTH_LONG);
-                 t.show();
-                 
-                 BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-                 
-                 if (btAdapter == null) {
-                    Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_LONG).show();
-                  }else{
-                     enableBlu();
-                  }
         }
    
    // duration that the device is discoverable
