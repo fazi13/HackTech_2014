@@ -173,6 +173,21 @@ public class Functions {
 			}
 		}
 		
+		for(int i = 0; i < freeTimeAL.size(); i++)
+		{
+			for(int j = i+1; j < freeTimeAL.size(); j++)
+			{
+				if(freeTimeAL.get(i).startDate.equals(freeTimeAL.get(j).startDate)
+						&& freeTimeAL.get(i).endDate.equals(freeTimeAL.get(j).endDate))
+				{
+					freeTimeAL.remove(j);
+					i--;
+					j--;
+				}
+			}
+		}
+		Collections.sort(freeTimeAL);
+		
 		return freeTimeAL;
 	}
 	
