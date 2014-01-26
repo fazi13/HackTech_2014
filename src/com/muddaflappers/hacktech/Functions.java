@@ -1,8 +1,11 @@
 package com.muddaflappers.hacktech;
 
+import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -27,7 +30,7 @@ public class Functions {
 		return false;
 	}
 	
-	public static void writeToText(ArrayList<Event> eventArrayList)
+	public static void writeToText(ArrayList<Event> eventArrayList) throws IOException
 	{
 		String writeString = "";
 		for (int i = 0; i < eventArrayList.size(); i++)
@@ -42,7 +45,20 @@ public class Functions {
 			writeString += ", ";
 			writeString += eventArrayList.get(i).endDate.get(Calendar.MINUTE);
 			writeString += ", ";
+			writeString += "\n";
 		}
-		Log.d("TEST", writeString);
+		
+		Log.d("WRITETEST", writeString);
+		FileWriter fWriter;
+		File sdCardFile = new File(Environment.getExternalStorageDirectory() + "/schedule.txt");
+		Log.d("TAG", sdCardFile.getPath()); //<-- check the log to make sure the path is correct.
+		try{
+		     fWriter = new FileWriter(sdCardFile, false);
+		     fWriter.write(writeString);
+		     fWriter.flush();
+		     fWriter.close();
+		 }catch(Exception e){
+		          e.printStackTrace();
+		 }
 	}
 }
