@@ -24,7 +24,7 @@ public class Functions {
 		ArrayList<String> stringList = new ArrayList<String>();
 		ArrayList<Event> eventList;
 		try {
-			InputStream inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/schedule.txt");
+			InputStream inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/otherSchedule.txt");
 			if (inputStream != null) {
 	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 	            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -91,10 +91,15 @@ public class Functions {
 		
 		Log.d("WRITETEST", writeString);
 		FileWriter fWriter;
-		File sdCardFile = new File(Environment.getExternalStorageDirectory() + "/schedule.txt");
-		Log.d("TAG", sdCardFile.getPath()); //<-- check the log to make sure the path is correct.
+		File sdCardOtherFile = new File(Environment.getExternalStorageDirectory() + "/otherSchedule.txt");
+		File sdCardMyFile = new File(Environment.getExternalStorageDirectory() + "/mySchedule.txt");
+		Log.d("TAG", sdCardOtherFile.getPath()); //<-- check the log to make sure the path is correct.
 		try{
-		     fWriter = new FileWriter(sdCardFile, false);
+		     fWriter = new FileWriter(sdCardOtherFile, false);
+		     fWriter.write(writeString);
+		     fWriter.flush();
+		     fWriter.close();
+		     fWriter = new FileWriter(sdCardMyFile, false);
 		     fWriter.write(writeString);
 		     fWriter.flush();
 		     fWriter.close();

@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	  intent = new Intent();
       intent.setAction(Intent.ACTION_SEND);
       intent.setType("text/plain");
-      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/schedule.txt")));
+      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/otherSchedule.txt")));
 	   
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
@@ -109,7 +109,9 @@ public class MainActivity extends Activity implements OnClickListener{
                 	ArrayList<Event> otherList = Functions.readFile();
                 	ArrayList<Event> freeTimeList = Functions.freeTimeCalc(eventList, otherList);
                 	
-                	
+                	/*
+                	 * DEBUGGER DATA BELOW
+                	 */
                 	String otherData = "";
                 	Log.d("Other List Size", Integer.toString(otherList.size()));
                 	for(int i = 0; i < otherList.size(); i++)
@@ -139,6 +141,7 @@ public class MainActivity extends Activity implements OnClickListener{
                 		freeTimeData += "\n";
                 	}
                 	Log.d("Check Schedules", freeTimeData);
+                	
                 	break;
                 }
         }
