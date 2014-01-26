@@ -182,7 +182,6 @@ public class Functions {
 						&& freeTimeAL.get(i).endDate.equals(freeTimeAL.get(j).endDate))
 				{
 					freeTimeAL.remove(j);
-					i--;
 					j--;
 				}
 			}
