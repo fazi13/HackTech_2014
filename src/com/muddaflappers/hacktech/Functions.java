@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Functions {
 	
@@ -17,6 +18,46 @@ public class Functions {
 	      String[] tokens = text.split("/");
 	      cal.set(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[0])-1, Integer.parseInt(tokens[1]));
 	      return cal;
+	}
+	
+	public static ArrayList<Event> readFile(){
+		ArrayList<String> stringList = new ArrayList<String>();
+		ArrayList<Event> eventList;
+		try {
+			InputStream inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/schedule.txt");
+			if (inputStream != null) {
+	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+	            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+	            String lineInput = "";
+
+	            while ((lineInput = bufferedReader.readLine()) != null) {
+	                 stringList.add(lineInput);
+	            }
+	            inputStream.close();
+	        }
+			
+		} catch (FileNotFoundException e) {
+			Log.d("readFile", "File Not Found");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Log.d("readFile", "Corrupted File");
+		}
+		eventList = new ArrayList<Event>();
+		eventList = parseStringToEvent(stringList);
+		return eventList;
+	}
+	
+	private static ArrayList<Event> parseStringToEvent(ArrayList<String> stringList){
+		ArrayList<Event> eventList = new ArrayList<Event>();
+		//string index order: title, hourStart, minuteStart, hourEnd, minuteEnd
+		for(int i = 0; i < stringList.size(); i++){
+			String[] temp = stringList.get(i).split(", ");
+			GregorianCalendar tempCal1 = new GregorianCalendar(0,0,Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), 0);
+			GregorianCalendar tempCal2 = new GregorianCalendar(0,0,Integer.parseInt(temp[3]), Integer.parseInt(temp[4]), 0);
+			eventList.add(new Event(temp[0], tempCal1, tempCal2, false));
+		}
+		
+		return eventList;
 	}
 	
 	public static boolean checkIfDateMatch(Event event, Calendar current) // TODO: NEED TO FIX
