@@ -61,13 +61,12 @@ public class MainActivity extends Activity implements OnClickListener{
    }
    
    public void onClick(View v){
-                GregorianCalendar dayOf = Functions.toDate(dateText); //day user wants to find
-                boolean allDay; //if event is all day
                 ArrayList<Event> eventList = new ArrayList<Event>();
                
                 //loop through all events and add to array list
                 switch(v.getId()){
                 case R.id.btnGetCalendar:
+                    GregorianCalendar dayOf = Functions.toDate(dateText); //day user wants to find
                 	mCursor.moveToFirst();
 					while(!mCursor.isAfterLast()){
 						if(!mCursor.getString(4).equals("1")){
@@ -75,7 +74,7 @@ public class MainActivity extends Activity implements OnClickListener{
 			                GregorianCalendar end = new GregorianCalendar();
 							start.setTimeInMillis(mCursor.getLong(1));
 							end.setTimeInMillis(mCursor.getLong(2)); // end date obj
-							allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
+							boolean allDay = !mCursor.getString(3).equals("0"); //gets boolean if all day
 							Event event = new Event(mCursor.getString(0), start, end, allDay);
 							Log.d("MainActivity", "Event = " + (start.get(Calendar.MONTH)+1) + "/" + start.get(Calendar.DATE) + "/" + start.get(Calendar.YEAR));
 							if(Functions.checkIfDateMatch(event, dayOf))
