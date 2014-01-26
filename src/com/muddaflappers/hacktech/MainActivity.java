@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.app.Activity;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 import android.app.Activity;
@@ -140,25 +141,64 @@ public class MainActivity extends Activity implements OnClickListener{
 	                	}
 	                	Log.d("Event List", eventData);
 	                	
-	                	int old = 0;
 	                	int counter;
 	                	int startHours = 0;
 	                	int endHours = 0;
 	                	int startMinutes = 0;
 	                	int endMinutes = 0;
-	                	for(counter = 1; counter < freeTime.length; counter++)
+	                	int streak = 0;
+	                	String freeTimeString = "";
+	                	for(counter = 0; counter < freeTime.length; counter++)
 	                	{
-	                		if(!freeTime[counter])
-	                		{
-	                			startHours = old / 60;
-	                			startMinutes = old % 60;
-	                			endHours = (counter-1) / 60;
-	                			endMinutes = (counter-1) % 60;
-	                			old = counter;
-	                			Log.d("FREE TIME", "Start: " + startHours + ":" + startMinutes +
-	                					"  End: " + endHours + ":" + endMinutes);
-	                		}
+	                		
+	                		if(freeTime[counter])
+	                			streak++;
+                			else
+                			{
+                				if(streak == 0)
+                					continue;
+	                			startHours = (counter-streak) / 60;
+	                			startMinutes = (counter-streak) % 60;
+	                			endHours = (counter) / 60;
+	                			endMinutes = (counter) % 60;
+	                			freeTimeString += "Start: " + startHours + ":" + startMinutes + "  End: " + endHours + ":" + endMinutes + "\n";
+	                			streak = 0;
+                			}
 	                	}
+	                	if(streak != 0)
+	                	{
+	                		startHours = (counter-streak) / 60;
+                			startMinutes = (counter-streak) % 60;
+                			endHours = (counter) / 60;
+                			endMinutes = (counter) % 60;
+                			freeTimeString += "Start: " + startHours + ":" + startMinutes + "  End: " + endHours + ":" + endMinutes + "\n";
+	                	}
+	                	Log.d("WRITETEST", freeTimeString);
+	            		FileWriter fWriter;
+	            		File sdCardFile = new File(Environment.getExternalStorageDirectory() + "/freeTime.txt");
+	            		Log.d("TAG", sdCardFile.getPath()); //<-- check the log to make sure the path is correct.
+	            		try{
+	            		     fWriter = new FileWriter(sdCardFile, false);
+	            		     fWriter.write(freeTimeString);
+	            		     fWriter.flush();
+	            		     fWriter.close();
+	            		 }catch(Exception e){
+	            		          e.printStackTrace();
+	            		 }
+	            		
+	            		intent = new Intent();
+	            		intent.setAction(Intent.ACTION_SEND);
+	            		intent.setType("text/plain");
+	            	    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/freeTime.txt")));
+		                BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
+		                 
+		                 if (blueAdapter == null) {
+		                    Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_LONG).show();
+		                  }
+		                 else{
+		                     enableBlu();
+		                  }
+
                 	}
                 	else
                 		Toast.makeText(this, "Generate Calendar Events First!", Toast.LENGTH_LONG).show();

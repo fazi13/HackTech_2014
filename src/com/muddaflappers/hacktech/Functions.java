@@ -106,20 +106,24 @@ public class Functions {
 	
 	public static boolean[] freeTimeCalc(ArrayList<Event> event1, ArrayList<Event> event2)
 	{
-		boolean[] freeTime = new boolean[1439];
+		final int MAX_MINUTES = 1440;
+		boolean[] freeTime = new boolean[MAX_MINUTES];
 		for(int i = 0; i < freeTime.length; i++)
 			freeTime[i] = true;
+		
+		int startIndex;
+		int endIndex;
 		for(int i = 0; i < event1.size(); i++)
-		{
-			int startIndex = event1.get(i).startDate.get(Calendar.HOUR_OF_DAY) * 60 + event1.get(i).startDate.get(Calendar.MINUTE);
-			int endIndex = event1.get(i).endDate.get(Calendar.HOUR_OF_DAY) * 60 + event1.get(i).endDate.get(Calendar.MINUTE);
+		{	
+			startIndex = event1.get(i).startDate.get(Calendar.HOUR_OF_DAY) * 60 + event1.get(i).startDate.get(Calendar.MINUTE);
+			endIndex = event1.get(i).endDate.get(Calendar.HOUR_OF_DAY) * 60 + event1.get(i).endDate.get(Calendar.MINUTE);
 			for(int j = startIndex; j < endIndex; j++)
 				freeTime[j] = false;
 		}
 		for(int i = 0; i < event2.size(); i++)
 		{
-			int startIndex = event2.get(i).startDate.get(Calendar.HOUR_OF_DAY) * 60 + event2.get(i).startDate.get(Calendar.MINUTE);
-			int endIndex = event2.get(i).endDate.get(Calendar.HOUR_OF_DAY) * 60 + event2.get(i).endDate.get(Calendar.MINUTE);
+			startIndex = event2.get(i).startDate.get(Calendar.HOUR_OF_DAY) * 60 + event2.get(i).startDate.get(Calendar.MINUTE);
+			endIndex = event2.get(i).endDate.get(Calendar.HOUR_OF_DAY) * 60 + event2.get(i).endDate.get(Calendar.MINUTE);
 			for(int j = startIndex; j < endIndex; j++)
 				freeTime[j] = false;
 		}
