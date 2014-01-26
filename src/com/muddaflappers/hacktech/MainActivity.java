@@ -115,7 +115,7 @@ public class MainActivity extends Activity implements OnClickListener{
                 	if(eventListCreated)
                 	{
 	                	ArrayList<Event> otherList = Functions.readFile();
-	                	ArrayList<Event> freeTimeList = Functions.freeTimeCalc(eventList, otherList);
+	                	boolean[] freeTime = Functions.freeTimeCalc(eventList, otherList);
 	                	
 	                	/*
 	                	 * DEBUGGER DATA BELOW
@@ -140,17 +140,25 @@ public class MainActivity extends Activity implements OnClickListener{
 	                	}
 	                	Log.d("Event List", eventData);
 	                	
-	                	String freeTimeData = "";
-	                	Log.d("Check Schedules Size", Integer.toString(freeTimeList.size()));
-	                	for(int i = 0; i < freeTimeList.size(); i++)
+	                	int old = 0;
+	                	int counter;
+	                	int startHours = 0;
+	                	int endHours = 0;
+	                	int startMinutes = 0;
+	                	int endMinutes = 0;
+	                	for(counter = 1; counter < freeTime.length; counter++)
 	                	{
-	                		freeTimeData += "Start: " + freeTimeList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).startDate.get(Calendar.MINUTE);
-	                		freeTimeData += "  End:" + freeTimeList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).endDate.get(Calendar.MINUTE);
-	                		freeTimeData += "\n";
+	                		if(!freeTime[counter])
+	                		{
+	                			startHours = old / 60;
+	                			startMinutes = old % 60;
+	                			endHours = (counter-1) / 60;
+	                			endMinutes = (counter-1) % 60;
+	                			old = counter;
+	                			Log.d("FREE TIME", "Start: " + startHours + ":" + startMinutes +
+	                					"  End: " + endHours + ":" + endMinutes);
+	                		}
 	                	}
-	                	Log.d("Check Schedules", freeTimeData);
-	                	
-	                	break;
                 	}
                 	else
                 		Toast.makeText(this, "Generate Calendar Events First!", Toast.LENGTH_LONG).show();

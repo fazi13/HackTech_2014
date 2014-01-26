@@ -104,127 +104,25 @@ public class Functions {
 		 }
 	}
 	
-	public static ArrayList<Event> freeTimeCalc(ArrayList<Event> event1, ArrayList<Event> event2)
+	public static boolean[] freeTimeCalc(ArrayList<Event> event1, ArrayList<Event> event2)
 	{
-		ArrayList<Event> freeTimeAL = new ArrayList<Event>(0);
-		ArrayList<Event> free1AL;
-		ArrayList<Event> free2AL;
-		
-		free1AL = convertFT(event1);
-		free2AL = convertFT(event2);
-		
-		Log.d("Jerry", Integer.toString(free1AL.get(0).startDate.get(Calendar.HOUR_OF_DAY)));
-		Log.d("Jerry", Integer.toString(free2AL.get(0).startDate.get(Calendar.HOUR_OF_DAY)));
-		
-		for (int i = 0; i < free1AL.size(); ++i)
+		boolean[] freeTime = new boolean[1439];
+		for(int i = 0; i < freeTime.length; i++)
+			freeTime[i] = true;
+		for(int i = 0; i < event1.size(); i++)
 		{
-			for (int j = 0; j < free2AL.size(); ++j)
-			{
-				if (free1AL.get(i).startDate.get(Calendar.HOUR_OF_DAY) < free2AL.get(j).startDate.get(Calendar.HOUR_OF_DAY))
-					{
-					if (free1AL.get(i).endDate.get(Calendar.HOUR_OF_DAY) < free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY) || 
-						(free1AL.get(i).endDate.get(Calendar.HOUR_OF_DAY) == free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY) && 
-						 free1AL.get(i).endDate.get(Calendar.MINUTE) < free2AL.get(j).endDate.get(Calendar.MINUTE)) ||
-						 (free1AL.get(i).endDate.get(Calendar.HOUR_OF_DAY) == free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY) &&
-						  free1AL.get(i).endDate.get(Calendar.MINUTE) == free2AL.get(j).endDate.get(Calendar.MINUTE)))
-						{
-							 GregorianCalendar temp1 = new GregorianCalendar (0,0,0, free2AL.get(j).startDate.get(Calendar.HOUR_OF_DAY), free2AL.get(j).startDate.get(Calendar.MINUTE));
-							 GregorianCalendar temp2 = new GregorianCalendar (0,0,0, free1AL.get(i).endDate.get(Calendar.HOUR_OF_DAY), free1AL.get(i).endDate.get(Calendar.MINUTE));
-							 freeTimeAL.add(new Event("Free Time", temp1, temp2, false ));
-						}
-					else if (free1AL.get(i).endDate.get(Calendar.HOUR_OF_DAY) > free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY) ||
-								(free1AL.get(i).endDate.get(Calendar.HOUR_OF_DAY) == free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY) &&
-								 free1AL.get(i).endDate.get(Calendar.MINUTE) > free2AL.get(j).endDate.get(Calendar.MINUTE)))
-						 {
-							 GregorianCalendar temp3 = new GregorianCalendar (0,0,0, free2AL.get(j).startDate.get(Calendar.HOUR_OF_DAY), free2AL.get(j).startDate.get(Calendar.MINUTE));
-							 GregorianCalendar temp4 = new GregorianCalendar (0,0,0, free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY), free2AL.get(j).endDate.get(Calendar.MINUTE));
-							 freeTimeAL.add(new Event("Free Time", temp3, temp4, false ));
-						 }
-					}
-				
-				else if (free1AL.get(i).startDate.get(Calendar.MINUTE) <= free2AL.get(j).startDate.get(Calendar.MINUTE) &&
-						 free1AL.get(i).startDate.get(Calendar.HOUR_OF_DAY) == free2AL.get(j).startDate.get(Calendar.HOUR_OF_DAY))
-				{
-					 GregorianCalendar temp1 = new GregorianCalendar (0,0,0, free2AL.get(j).startDate.get(Calendar.HOUR_OF_DAY), free2AL.get(j).startDate.get(Calendar.MINUTE));
-					 GregorianCalendar temp2 = new GregorianCalendar (0,0,0, free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY), free2AL.get(j).endDate.get(Calendar.MINUTE));
-					 freeTimeAL.add(new Event("Free Time", temp1, temp2, false ));
-				}
-			}	
+			int startIndex = event1.get(i).startDate.get(Calendar.HOUR_OF_DAY) * 60 + event1.get(i).startDate.get(Calendar.MINUTE);
+			int endIndex = event1.get(i).endDate.get(Calendar.HOUR_OF_DAY) * 60 + event1.get(i).endDate.get(Calendar.MINUTE);
+			for(int j = startIndex; j < endIndex; j++)
+				freeTime[j] = false;
 		}
-		
-		for (int i = 0; i < free1AL.size(); ++i)
+		for(int i = 0; i < event2.size(); i++)
 		{
-			for (int j = 0; j < free2AL.size(); ++j)
-			{
-				if (free1AL.get(i).endDate.get(Calendar.HOUR_OF_DAY) > free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY) || 
-						(free1AL.get(i).endDate.get(Calendar.HOUR_OF_DAY) == free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY)
-						&& free1AL.get(i).endDate.get(Calendar.MINUTE) > free2AL.get(j).endDate.get(Calendar.MINUTE)))
-				{
-					if (free1AL.get(i).startDate.get(Calendar.HOUR_OF_DAY) > free2AL.get(j).startDate.get(Calendar.HOUR_OF_DAY) ||
-							(free1AL.get(i).startDate.get(Calendar.HOUR_OF_DAY) == free2AL.get(j).startDate.get(Calendar.HOUR_OF_DAY) &&
-							 free1AL.get(i).startDate.get(Calendar.MINUTE) > free2AL.get(j).startDate.get(Calendar.MINUTE)) ||
-							 (free1AL.get(i).startDate.get(Calendar.HOUR_OF_DAY) == free2AL.get(j).startDate.get(Calendar.HOUR_OF_DAY) &&
-							 free1AL.get(i).startDate.get(Calendar.MINUTE) == free2AL.get(j).startDate.get(Calendar.MINUTE)))
-					{
-						GregorianCalendar temp5 = new GregorianCalendar (0,0,0, free1AL.get(i).startDate.get(Calendar.HOUR_OF_DAY), free1AL.get(i).startDate.get(Calendar.MINUTE));
-						GregorianCalendar temp6 = new GregorianCalendar (0,0,0, free2AL.get(j).endDate.get(Calendar.HOUR_OF_DAY), free2AL.get(j).endDate.get(Calendar.MINUTE));
-						freeTimeAL.add(new Event("Free Time", temp5, temp6, false ));	
-					}
-				}
-			}
+			int startIndex = event2.get(i).startDate.get(Calendar.HOUR_OF_DAY) * 60 + event2.get(i).startDate.get(Calendar.MINUTE);
+			int endIndex = event2.get(i).endDate.get(Calendar.HOUR_OF_DAY) * 60 + event2.get(i).endDate.get(Calendar.MINUTE);
+			for(int j = startIndex; j < endIndex; j++)
+				freeTime[j] = false;
 		}
-		
-		for(int i = 0; i < freeTimeAL.size(); i++)
-		{
-			for(int j = i+1; j < freeTimeAL.size(); j++)
-			{
-				if(freeTimeAL.get(i).startDate.equals(freeTimeAL.get(j).startDate)
-						&& freeTimeAL.get(i).endDate.equals(freeTimeAL.get(j).endDate))
-				{
-					freeTimeAL.remove(j);
-					j--;
-				}
-			}
-		}
-		Collections.sort(freeTimeAL);
-		
-		return freeTimeAL;
-	}
-	
-	private static ArrayList<Event> convertFT(ArrayList<Event> event)
-	{
-		ArrayList<Event> freeAL = new ArrayList<Event>();
-		int i = 0;
-		
-		if(event.size() == 0)
-		{
-			GregorianCalendar cal1 = new GregorianCalendar(0,0,0,0,0);
-			GregorianCalendar cal2 = new GregorianCalendar(0,0,0, 23, 59);
-			freeAL.add(new Event("Free Time", cal1, cal2, false));
-			return freeAL;
-		}
-		
-		if (!(event.get(0).startDate.get(Calendar.HOUR_OF_DAY) == 0 && event.get(0).startDate.get(Calendar.MINUTE) == 0))
-		{
-			GregorianCalendar cal1 = new GregorianCalendar(0,0,0,0,0);
-			GregorianCalendar cal2 = new GregorianCalendar(0,0,0,event.get(0).startDate.get(Calendar.HOUR_OF_DAY), event.get(0).startDate.get(Calendar.MINUTE));
-			freeAL.add(new Event("Free Time", cal1, cal2, false));
-		}
-		
-		while (i < event.size())
-		{
-			GregorianCalendar cal3 = new GregorianCalendar(0,0,0,event.get(i).endDate.get(Calendar.HOUR_OF_DAY), event.get(i).endDate.get(Calendar.MINUTE));
-			++i;
-			if (i > event.size() - 1)
-			{
-				GregorianCalendar cal4 = new GregorianCalendar(0,0,0,23,59);
-				freeAL.add(new Event("Free Time", cal3, cal4, false));
-				break;
-			}
-			GregorianCalendar cal4 = new GregorianCalendar(0,0,0,event.get(i).startDate.get(Calendar.HOUR_OF_DAY), event.get(i).startDate.get(Calendar.MINUTE));
-			freeAL.add(new Event("Free Time", cal3, cal4, false));
-		}
-		
-		return freeAL;
+		return freeTime;
 	}
 }
