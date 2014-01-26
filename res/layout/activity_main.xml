@@ -28,20 +28,4 @@
             <requestFocus />
         </EditText>
      
-        <Button
-           android:id="@+id/btnGetCalendar"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="14dp"
-           android:layout_marginTop="14dp"
-           android:text="@string/btn_calendar" />
-
-        <Button
-            android:id="@+id/btnCheckSchedules"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="14dp"
-            android:text="@string/btn_check_schedules" />
-     
     </LinearLayout>
