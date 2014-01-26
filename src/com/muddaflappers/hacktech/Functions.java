@@ -24,6 +24,7 @@ public class Functions {
 		ArrayList<String> stringList = new ArrayList<String>();
 		ArrayList<Event> eventList;
 		try {
+			Log.d("TAG", Environment.getExternalStorageDirectory() + "/bluetooth/schedule.txt");
 			InputStream inputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/bluetooth/schedule.txt");
 			if (inputStream != null) {
 	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -91,7 +92,7 @@ public class Functions {
 		
 		Log.d("WRITETEST", writeString);
 		FileWriter fWriter;
-		File sdCardFile = new File(Environment.getExternalStorageDirectory() + "/otherSchedule.txt");
+		File sdCardFile = new File(Environment.getExternalStorageDirectory() + "/schedule.txt");
 		Log.d("TAG", sdCardFile.getPath()); //<-- check the log to make sure the path is correct.
 		try{
 		     fWriter = new FileWriter(sdCardFile, false);
