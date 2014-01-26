@@ -179,13 +179,18 @@ public class Functions {
 		ArrayList<Event> freeAL = new ArrayList<Event>();
 		int i = 0;
 		
-		if(event.size() > 0){
-			if (event.get(0).startDate.get(Calendar.HOUR_OF_DAY) != 0 && event.get(0).startDate.get(Calendar.MINUTE) != 0)
-			{
-				GregorianCalendar cal1 = new GregorianCalendar(0,0,0,0,0);
-				GregorianCalendar cal2 = new GregorianCalendar(0,0,0,event.get(0).startDate.get(Calendar.HOUR_OF_DAY), event.get(0).startDate.get(Calendar.MINUTE));
-				freeAL.add(new Event("Free Time", cal1, cal2, false));
-			}
+		if(event.size() == 0)
+		{
+			GregorianCalendar cal1 = new GregorianCalendar(0,0,0,0,0);
+			GregorianCalendar cal2 = new GregorianCalendar(0,0,0, 23, 59);
+			freeAL.add(new Event("Free Time", cal1, cal2, false));
+		}
+		
+		if (event.get(0).startDate.get(Calendar.HOUR_OF_DAY) != 0 && event.get(0).startDate.get(Calendar.MINUTE) != 0)
+		{
+			GregorianCalendar cal1 = new GregorianCalendar(0,0,0,0,0);
+			GregorianCalendar cal2 = new GregorianCalendar(0,0,0,event.get(0).startDate.get(Calendar.HOUR_OF_DAY), event.get(0).startDate.get(Calendar.MINUTE));
+			freeAL.add(new Event("Free Time", cal1, cal2, false));
 		}
 		
 		while (i < event.size())
