@@ -37,6 +37,8 @@ public class MainActivity extends Activity implements OnClickListener{
          {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND, CalendarContract.Events.ALL_DAY,
 	   			CalendarContract.Events.DELETED};
    Intent intent;
+   ArrayList<Event> eventList;
+   boolean eventListCreated;
    
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -58,14 +60,16 @@ public class MainActivity extends Activity implements OnClickListener{
       btnGetCalendar.setOnClickListener(this);
       Button btnCheckSchedules = (Button) findViewById(R.id.btnCheckSchedules);
       btnCheckSchedules.setOnClickListener(this);
+      eventListCreated = false;
    }
    
    public void onClick(View v){
-                ArrayList<Event> eventList = new ArrayList<Event>();
+                
                
                 //loop through all events and add to array list
                 switch(v.getId()){
                 case R.id.btnGetCalendar:
+                	eventList = new ArrayList<Event>();
                     GregorianCalendar dayOf = Functions.toDate(dateText); //day user wants to find
                 	mCursor.moveToFirst();
 					while(!mCursor.isAfterLast()){
@@ -86,6 +90,8 @@ public class MainActivity extends Activity implements OnClickListener{
 						mCursor.moveToNext(); //moves to next event
                     }
 					Collections.sort(eventList);
+					eventListCreated = true;
+					
 					try {
 						Functions.writeToText(eventList);
 					} catch (IOException e) {
@@ -106,43 +112,48 @@ public class MainActivity extends Activity implements OnClickListener{
 					break;
 					
                 case R.id.btnCheckSchedules:
-                	ArrayList<Event> otherList = Functions.readFile();
-                	ArrayList<Event> freeTimeList = Functions.freeTimeCalc(eventList, otherList);
-                	
-                	/*
-                	 * DEBUGGER DATA BELOW
-                	 */
-                	String otherData = "";
-                	Log.d("Other List Size", Integer.toString(otherList.size()));
-                	for(int i = 0; i < otherList.size(); i++)
+                	if(eventListCreated)
                 	{
-                		otherData += "Start: " + otherList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + otherList.get(i).startDate.get(Calendar.MINUTE);
-                		otherData += "  End:" + otherList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + otherList.get(i).endDate.get(Calendar.MINUTE);
-                		otherData += "\n";
+	                	ArrayList<Event> otherList = Functions.readFile();
+	                	ArrayList<Event> freeTimeList = Functions.freeTimeCalc(eventList, otherList);
+	                	
+	                	/*
+	                	 * DEBUGGER DATA BELOW
+	                	 */
+	                	String otherData = "";
+	                	Log.d("Other List Size", Integer.toString(otherList.size()));
+	                	for(int i = 0; i < otherList.size(); i++)
+	                	{
+	                		otherData += "Start: " + otherList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + otherList.get(i).startDate.get(Calendar.MINUTE);
+	                		otherData += "  End:" + otherList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + otherList.get(i).endDate.get(Calendar.MINUTE);
+	                		otherData += "\n";
+	                	}
+	                	Log.d("Other List", otherData);
+	                	
+	                	String eventData = "";
+	                	Log.d("Event List Size", Integer.toString(eventList.size()));
+	                	for(int i = 0; i < eventList.size(); i++)
+	                	{
+	                		eventData += "Start: " + eventList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + eventList.get(i).startDate.get(Calendar.MINUTE);
+	                		eventData += "  End:" + eventList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + eventList.get(i).endDate.get(Calendar.MINUTE);
+	                		eventData += "\n";
+	                	}
+	                	Log.d("Event List", eventData);
+	                	
+	                	String freeTimeData = "";
+	                	Log.d("Check Schedules Size", Integer.toString(freeTimeList.size()));
+	                	for(int i = 0; i < freeTimeList.size(); i++)
+	                	{
+	                		freeTimeData += "Start: " + freeTimeList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).startDate.get(Calendar.MINUTE);
+	                		freeTimeData += "  End:" + freeTimeList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).endDate.get(Calendar.MINUTE);
+	                		freeTimeData += "\n";
+	                	}
+	                	Log.d("Check Schedules", freeTimeData);
+	                	
+	                	break;
                 	}
-                	Log.d("Other List", otherData);
-                	
-                	String eventData = "";
-                	Log.d("Event List Size", Integer.toString(eventList.size()));
-                	for(int i = 0; i < eventList.size(); i++)
-                	{
-                		eventData += "Start: " + eventList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + eventList.get(i).startDate.get(Calendar.MINUTE);
-                		eventData += "  End:" + eventList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + eventList.get(i).endDate.get(Calendar.MINUTE);
-                		eventData += "\n";
-                	}
-                	Log.d("Event List", eventData);
-                	
-                	String freeTimeData = "";
-                	Log.d("Check Schedules Size", Integer.toString(freeTimeList.size()));
-                	for(int i = 0; i < freeTimeList.size(); i++)
-                	{
-                		freeTimeData += "Start: " + freeTimeList.get(i).startDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).startDate.get(Calendar.MINUTE);
-                		freeTimeData += "  End:" + freeTimeList.get(i).endDate.get(Calendar.HOUR_OF_DAY) + ":" + freeTimeList.get(i).endDate.get(Calendar.MINUTE);
-                		freeTimeData += "\n";
-                	}
-                	Log.d("Check Schedules", freeTimeData);
-                	
-                	break;
+                	else
+                		Toast.makeText(this, "Generate Calendar Events First!", Toast.LENGTH_LONG).show();
                 }
         }
    
