@@ -58,8 +58,10 @@ public class MainActivity extends Activity{
      
       //set up calendar cursor
       mCursor = getContentResolver().query(CalendarContract.Events.CONTENT_URI, COLS, null, null, null);
-      dateText = (EditText) findViewById(R.id.dateBox);
       eventListCreated = false;
+      ArrayList<String> stringList = Functions.refresh();
+      ArrayAdapter<String> adapter;
+      adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringList);
    }
    
    // duration that the device is discoverable
@@ -128,13 +130,12 @@ public class MainActivity extends Activity{
           View promptView = li.inflate(R.layout.prompt, null);
           AlertDialog.Builder adb = new AlertDialog.Builder(context);
           adb.setView(promptView);
-          final EditText textInput = (EditText) promptView.findViewById(R.id.userInput);
           final EditText dateInput = (EditText) promptView.findViewById(R.id.dateInput);
           adb
              .setCancelable(false)
              .setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface d, int id){
-                   dateText.setText(textInput.getText());
+                   dateText.setText(dateInput.getText());
                 }
              })
              .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -147,8 +148,12 @@ public class MainActivity extends Activity{
           ad.show();
           
           GregorianCalendar dayOf = Functions.toDate(dateText); //day user wants to find
+          if(dayOf == null){//error in date
+             Toast.makeText(getApplicationContext(), "Invalid Date", Toast.LENGTH_LONG).show();
+             System.exit(1);
+          }
           mCursor.moveToFirst();
-          
+             
           //checks through all events
           while(!mCursor.isAfterLast()){
              if(!mCursor.getString(4).equals("1")){
@@ -173,10 +178,10 @@ public class MainActivity extends Activity{
           try {
              Functions.writeToText(eventList);
           } catch (IOException e) {
-          Toast.makeText(getApplicationContext(), "Error Writing File", Toast.LENGTH_LONG).show();
+             Toast.makeText(getApplicationContext(), "Error Writing File", Toast.LENGTH_LONG).show();
           }
-          Toast.makeText(getApplicationContext(), "All Events Added", Toast.LENGTH_LONG).show();
-          enableBlu();
+             Toast.makeText(getApplicationContext(), "All Events Added", Toast.LENGTH_LONG).show();
+             enableBlu();
           }
           return true;
           
@@ -263,10 +268,14 @@ public class MainActivity extends Activity{
                    enableBlu();
           }
           else
-             Toast.makeText(this, "Generate Calendar Events First!", Toast.LENGTH_LONG).show();
+             Toast.makeText(this, "Connect Devices First!", Toast.LENGTH_LONG).show();
            return true;
        case R.id.refresh:
-          
+          ArrayList<String> stringList = Functions.refresh();
+          ArrayAdapter<String> adapter;
+          adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringList);
+          adapter.notifyDataSetChanged();
+          Toast.makeText(this, "List Refreshed!", Toast.LENGTH_LONG).show();
            return true;
        default:
           break;

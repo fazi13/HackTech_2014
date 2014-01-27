@@ -10,6 +10,6 @@
     <string name="start">Start Connection</string>
     <string name="time">Find Free Time</string>
     <string name="refresh">Refresh</string>
-    <string name="tv_label">Enter Desired Date (mm/dd/yyyy):</string>
+    <string name="tv_label">Enter Desired Date: \n(mm/dd/yyyy)</string>
 
 </resources>

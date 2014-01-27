@@ -13,11 +13,15 @@ import android.widget.Toast;
 public class Functions {
 	
 	public static GregorianCalendar toDate(EditText textInput){
+	   try{
 	      GregorianCalendar cal = new GregorianCalendar();
 	      String text = textInput.getText().toString();
 	      String[] tokens = text.split("/");
 	      cal.set(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[0])-1, Integer.parseInt(tokens[1]));
 	      return cal;
+	   }catch (Exception e){
+	      return null;
+	   }
 	}
 	
 	public static ArrayList<Event> readFile(){
@@ -46,6 +50,32 @@ public class Functions {
 		eventList = new ArrayList<Event>();
 		eventList = parseStringToEvent(stringList);
 		return eventList;
+	}
+	
+	public static ArrayList<String> refresh(){
+	   ArrayList<String> stringList = new ArrayList<String>();
+	   ArrayList<Event> eventList = readFile();
+	   for(int i = 0; i < eventList.size(); i++){
+	      int hour = eventList.get(i).getStartDate().get(Calendar.HOUR);
+	      int minute = eventList.get(i).getStartDate().get(Calendar.MINUTE);
+	      int ampm = eventList.get(i).getStartDate().get(Calendar.AM_PM);
+	      String time = Integer.toString(hour) + ":" + Integer.toString(minute); //HH:MM AMPM
+	      if(ampm == 0)
+	         time += " AM";
+	      else
+	         time += " PM";
+	      //add times for end time
+	      hour = eventList.get(i).getEndDate().get(Calendar.HOUR);
+	      minute = eventList.get(i).getEndDate().get(Calendar.MINUTE);
+	      ampm = eventList.get(i).getEndDate().get(Calendar.AM_PM);
+	      time += " - " + Integer.toString(hour) + ":" + Integer.toString(minute);//HH:MM AMPM - HH:MM AMPM
+         if(ampm == 0)
+            time += " AM";
+         else
+            time += " PM";
+         stringList.add(time);
+	   }
+	   return stringList;
 	}
 	
 	private static ArrayList<Event> parseStringToEvent(ArrayList<String> stringList){
